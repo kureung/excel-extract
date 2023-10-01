@@ -1,6 +1,5 @@
 package io.github.kureung.common;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -39,6 +38,16 @@ class CellIndexNameTest {
         int result = sut.xCoordinate();
 
         assertThat(result).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("y 좌표 조회")
+    void convertToYCoordinate() {
+        CellIndexName sut = new CellIndexName("A5");
+
+        int result = sut.yCoordinate();
+
+        assertThat(result).isEqualTo(4);
     }
 }
 

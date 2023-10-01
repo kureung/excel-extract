@@ -22,4 +22,9 @@ public class CellIndexName {
         CellReference cellReference = new CellReference(value);
         return cellReference.getCol();
     }
+
+    public int yCoordinate() {
+        CellReference cellReference = new CellReference(value);
+        return cellReference.getRow();
+    }
 }
