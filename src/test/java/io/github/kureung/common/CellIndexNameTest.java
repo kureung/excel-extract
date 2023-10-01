@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 class CellIndexNameTest {
     @Test
@@ -30,6 +29,16 @@ class CellIndexNameTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("셀 좌표 이름은 '[A-Za-z]+[0-9]+' 양식이어야 합니다.");
 
+    }
+
+    @Test
+    @DisplayName("x 좌표 조회")
+    void convertToXCoordinate() {
+        CellIndexName sut = new CellIndexName("A5");
+
+        int result = sut.xCoordinate();
+
+        assertThat(result).isEqualTo(0);
     }
 }
 

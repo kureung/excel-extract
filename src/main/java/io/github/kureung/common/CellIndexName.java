@@ -17,4 +17,9 @@ public class CellIndexName {
             throw new IllegalArgumentException("셀 좌표 이름은 '[A-Za-z]+[0-9]+' 양식이어야 합니다.");
         }
     }
+
+    public int xCoordinate() {
+        CellReference cellReference = new CellReference(value);
+        return cellReference.getCol();
+    }
 }
