@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CellExtractionCondition {
+public @interface CellExtract {
     String cellCategoryIndexName() default "";
     String cellCategoryValue() default "";
     String firstExtractedCellIndexName();
