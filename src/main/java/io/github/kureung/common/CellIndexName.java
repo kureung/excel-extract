@@ -4,7 +4,7 @@ import org.apache.poi.ss.util.CellReference;
 
 import java.util.regex.Pattern;
 
-class CellIndexName {
+public class CellIndexName {
     private final String value;
 
     public CellIndexName(final String value) {
