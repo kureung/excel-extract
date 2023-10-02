@@ -21,7 +21,8 @@ public class XlsxExtractor {
 
     public <T> List<T> execute(Class<T> clazz) {
         List<Row> rows = tableRows(clazz);
-        verify(clazz, rows);
+        verifyCategoryValue(clazz, rows);
+
         List<T> result = new ArrayList<>();
 
         Field[] fields = clazz.getDeclaredFields();
@@ -38,6 +39,10 @@ public class XlsxExtractor {
             result.add(instance);
         }
         return result;
+    }
+
+    private <T> void verifyCategoryValue(Class<T> clazz, List<Row> rows) {
+        new CategoryValidator<>(clazz, rows).execute();
     }
 
     private <T> List<Row> tableRows(Class<T> clazz) {
@@ -125,29 +130,6 @@ public class XlsxExtractor {
             field.set(instance, value);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    private <T> void verify(Class<T> clazz, List<Row> rows) {
-        Field[] fields = clazz.getDeclaredFields();
-        for (Field field : fields) {
-            if (field.isAnnotationPresent(CellExtract.class)) {
-                CellExtract extractionCondition = field.getAnnotation(CellExtract.class);
-                if (extractionCondition.verifyCellCategory()) {
-                    String categoryIndexName = extractionCondition.categoryIndex();
-                    String cellValue = extractionCondition.categoryValue();
-                    CellIndexName cellIndexName = new CellIndexName(categoryIndexName);
-                    for (Row row : rows) {
-                        if (row.getRowNum() == cellIndexName.yCoordinate() + 1) {
-                            Cell cell = row.getCell(cellIndexName.xCoordinate());
-                            if (!cellValue.equals(cell.getText())) {
-                                String message = String.format("셀 값 검증 실패. expected=%s, actual=%s", cellValue, cell.getText());
-                                throw new IllegalStateException(message);
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 }
