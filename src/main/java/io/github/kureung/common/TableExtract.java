@@ -8,9 +8,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TableExtract {
-    String firstDataRowIndexName();
-    String lastDateRowIndexName();
-    int sheetIndex() default 0;
+    String firstDataIndex();
+    String lastDateIndex();
+    int sheetNumber() default 0;
     String sheetName() default "";
     boolean verifySheetName() default true;
 }
