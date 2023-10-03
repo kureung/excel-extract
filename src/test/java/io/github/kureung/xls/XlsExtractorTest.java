@@ -36,7 +36,7 @@ class XlsExtractorTest {
 
         @Override
         public String toString() {
-            return "XlsxSampleData{" +
+            return "XlsSampleData{" +
                     "name='" + name + '\'' +
                     ", age=" + age +
                     '}';
