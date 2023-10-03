@@ -12,12 +12,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
+
 class XlsCategoryValidatorTest {
     @Test
-    void name() throws IOException {
+    void validCategory_is_not_throw_exception() throws IOException {
         XlsCategoryValidator<XlsValidCategorySample> sut = new XlsCategoryValidator<>(XlsValidCategorySample.class, rows());
 
-        sut.execute();
+        assertThatCode(() -> sut.execute())
+                .doesNotThrowAnyException();
     }
 
     private List<Row> rows() throws IOException {

@@ -35,12 +35,12 @@ class XlsxCategoryValidatorTest {
 
     @Test
     void invalidCategory_is_throw_exception() throws IOException {
-        XlsxCategoryValidator<InvalidCategorySample> sut = new XlsxCategoryValidator<>(InvalidCategorySample.class, rows());
+        XlsxCategoryValidator<XlsxInvalidCategorySample> sut = new XlsxCategoryValidator<>(XlsxInvalidCategorySample.class, rows());
         assertThatThrownBy(() -> sut.execute())
                 .isInstanceOf(IllegalStateException.class);
     }
 
-    private static class InvalidCategorySample {
+    private static class XlsxInvalidCategorySample {
         @CellExtract(categoryIndex = "B3", categoryValue = "성명1", firstDataIndex = "B4")
         private String name;
     }
