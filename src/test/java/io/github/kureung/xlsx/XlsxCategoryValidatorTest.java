@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class XlsxCategoryValidatorTest {
     @Test
     void validCategory_is_not_throw_exception() throws IOException {
-        XlsxCategoryValidator<ValidCategorySample> sut = new XlsxCategoryValidator<>(ValidCategorySample.class, rows());
+        XlsxCategoryValidator<XlsxValidCategorySample> sut = new XlsxCategoryValidator<>(XlsxValidCategorySample.class, rows());
 
         assertThatCode(() -> sut.execute())
                 .doesNotThrowAnyException();
@@ -28,7 +28,7 @@ class XlsxCategoryValidatorTest {
                 .read();
     }
 
-    private static class ValidCategorySample {
+    private static class XlsxValidCategorySample {
         @CellExtract(categoryIndex = "B3", categoryValue = "성명", firstDataIndex = "B4")
         private String name;
     }
