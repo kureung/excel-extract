@@ -12,10 +12,10 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class CategoryValidatorTest {
+class XlsxCategoryValidatorTest {
     @Test
     void validCategory_is_not_throw_exception() throws IOException {
-        CategoryValidator<ValidCategorySample> sut = new CategoryValidator<>(ValidCategorySample.class, rows());
+        XlsxCategoryValidator<ValidCategorySample> sut = new XlsxCategoryValidator<>(ValidCategorySample.class, rows());
 
         assertThatCode(() -> sut.execute())
                 .doesNotThrowAnyException();
@@ -35,7 +35,7 @@ class CategoryValidatorTest {
 
     @Test
     void invalidCategory_is_throw_exception() throws IOException {
-        CategoryValidator<InvalidCategorySample> sut = new CategoryValidator<>(InvalidCategorySample.class, rows());
+        XlsxCategoryValidator<InvalidCategorySample> sut = new XlsxCategoryValidator<>(InvalidCategorySample.class, rows());
         assertThatThrownBy(() -> sut.execute())
                 .isInstanceOf(IllegalStateException.class);
     }

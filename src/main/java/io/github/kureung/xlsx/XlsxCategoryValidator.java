@@ -8,12 +8,12 @@ import org.dhatim.fastexcel.reader.Row;
 import java.lang.reflect.Field;
 import java.util.List;
 
-class CategoryValidator<T> {
+class XlsxCategoryValidator<T> {
 
     private final Class<T> clazz;
     private final List<Row> rows;
 
-    CategoryValidator(Class<T> clazz, List<Row> rows) {
+    XlsxCategoryValidator(Class<T> clazz, List<Row> rows) {
         this.clazz = clazz;
         this.rows = rows;
     }

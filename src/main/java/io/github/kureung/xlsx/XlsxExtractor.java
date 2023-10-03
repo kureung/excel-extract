@@ -42,7 +42,7 @@ public class XlsxExtractor {
     }
 
     private <T> void verifyCategoryValue(Class<T> clazz, List<Row> rows) {
-        new CategoryValidator<>(clazz, rows).execute();
+        new XlsxCategoryValidator<>(clazz, rows).execute();
     }
 
     private <T> List<Row> tableRows(Class<T> clazz) {
