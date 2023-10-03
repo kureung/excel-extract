@@ -15,6 +15,7 @@ dependencies {
     testImplementation 'org.assertj:assertj-core:3.24.2'
     implementation 'org.apache.poi:poi:5.2.4'
     implementation 'org.dhatim:fastexcel-reader:0.15.7'
+    implementation 'com.opencsv:opencsv:5.7.1'
 }
 
 test {
