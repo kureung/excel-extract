@@ -5,17 +5,17 @@ import io.github.kureung.common.CellIndexName;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 public class XlsCategoryValidator<T> {
     private final Class<T> clazz;
-    private final Sheet sheet;
+    private final List<Row> rows;
 
-    public XlsCategoryValidator(final Class<T> clazz, final Sheet sheet) {
+    public XlsCategoryValidator(final Class<T> clazz, final List<Row> rows) {
         this.clazz = clazz;
-        this.sheet = sheet;
+        this.rows = rows;
     }
 
     void execute() {
@@ -44,7 +44,7 @@ public class XlsCategoryValidator<T> {
 
 
     private void rowTraversal(CellIndexName cellIndexName, String cellValue) {
-        for (Row row : sheet) {
+        for (Row row : rows) {
             verifyRowNumber(cellIndexName, cellValue, row);
         }
     }
