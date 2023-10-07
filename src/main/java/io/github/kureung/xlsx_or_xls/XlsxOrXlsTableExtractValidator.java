@@ -4,6 +4,7 @@ import io.github.kureung.common.TableExtract;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,8 +75,8 @@ class XlsxOrXlsTableExtractValidator<T> {
     }
 
     private Sheet sheet(int sheetPage) {
-        try {
-            return WorkbookFactory.create(file)
+        try (FileInputStream fis = new FileInputStream(file)) {
+            return WorkbookFactory.create(fis)
                     .getSheetAt(sheetPage);
         } catch (IOException e) {
             throw new RuntimeException(e);
