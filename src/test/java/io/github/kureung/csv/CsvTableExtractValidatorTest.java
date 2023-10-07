@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 class CsvTableExtractValidatorTest {
     @Test
     void validTable_is_not_throw_exception() {
-        File xlsx = new File("src/test/java/io/github/kureung/xls/xls_sample.xls");
+        File xlsx = new File("src/test/java/io/github/kureung/csv/csv_sample.csv");
 
         CsvTableExtractValidator<CsvValidSheetSample> sut = new CsvTableExtractValidator<>(xlsx, CsvValidSheetSample.class);
 
