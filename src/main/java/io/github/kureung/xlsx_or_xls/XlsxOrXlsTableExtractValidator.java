@@ -1,22 +1,18 @@
-package io.github.kureung.xlsx;
+package io.github.kureung.xlsx_or_xls;
 
 import io.github.kureung.common.TableExtract;
-import org.dhatim.fastexcel.reader.CellType;
-import org.dhatim.fastexcel.reader.ReadableWorkbook;
-import org.dhatim.fastexcel.reader.Row;
-import org.dhatim.fastexcel.reader.Sheet;
+import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-class XlsxTableExtractValidator<T> {
+class XlsxOrXlsTableExtractValidator<T> {
     private final File file;
     private final Class<T> clazz;
 
-    public XlsxTableExtractValidator(final File file, final Class<T> clazz) {
+    public XlsxOrXlsTableExtractValidator(final File file, final Class<T> clazz) {
         this.file = file;
         this.clazz = clazz;
     }
@@ -30,19 +26,23 @@ class XlsxTableExtractValidator<T> {
 
     public List<Row> validRows() {
         TableExtract table = clazz.getAnnotation(TableExtract.class);
-        int firstValidDataRowNumber = table.firstDataRowIndex() + 1;
+        int firstValidDataRowNumber = table.firstDataRowIndex();
         List<Row> tableRows = tableRows(validSheet(), firstValidDataRowNumber);
+
         List<Row> result = new ArrayList<>();
         for (Row row : tableRows) {
             if (table.terminateCondition().columNumber() >= 0) {
                 TableExtract.Entry entry = table.terminateCondition();
                 int columNumber = entry.columNumber();
                 if (entry.isNull()) {
-                    if (!row.hasCell(columNumber) || row.getCell(columNumber).getType() == CellType.EMPTY) {
+                    Cell cell = row.getCell(columNumber);
+                    if (cell == null || cell.getCellType() == CellType._NONE || cell.getCellType() == CellType.BLANK) {
                         return result;
                     }
                 }
-                if (row.getCell(columNumber).getText().equals(entry.value())) {
+                DataFormatter formatter = new DataFormatter();
+                String actualCellValue = formatter.formatCellValue(row.getCell(columNumber));
+                if (actualCellValue.equals(entry.value())) {
                     return result;
                 }
             }
@@ -52,14 +52,13 @@ class XlsxTableExtractValidator<T> {
     }
 
     private List<Row> tableRows(Sheet sheet, int firstValidDataRowNumber) {
-        try {
-            return sheet.read()
-                    .stream()
-                    .filter(row -> row.getRowNum() >= firstValidDataRowNumber)
-                    .collect(Collectors.toList());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        List<Row> result = new ArrayList<>();
+        for (Row row : sheet) {
+            if (row.getRowNum() >= firstValidDataRowNumber) {
+                result.add(row);
+            }
         }
+        return result;
     }
 
     private void verifyHasTableExtractAnnotation() {
@@ -76,9 +75,8 @@ class XlsxTableExtractValidator<T> {
 
     private Sheet sheet(int sheetPage) {
         try {
-            return new ReadableWorkbook(file)
-                    .getSheet(sheetPage)
-                    .orElseThrow(() -> new IllegalStateException("not found sheet"));
+            return WorkbookFactory.create(file)
+                    .getSheetAt(sheetPage);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -93,8 +91,8 @@ class XlsxTableExtractValidator<T> {
     }
 
     private void verifyValue(Sheet sheet, String sheetName) {
-        if (!sheetName.equals(sheet.getName())) {
-            String message = String.format("시트 이름 불일치. expected=%s, actual=%s", sheetName, sheet.getName());
+        if (!sheetName.equals(sheet.getSheetName())) {
+            String message = String.format("시트 이름 불일치. expected=%s, actual=%s", sheetName, sheet.getSheetName());
             throw new IllegalStateException(message);
         }
     }

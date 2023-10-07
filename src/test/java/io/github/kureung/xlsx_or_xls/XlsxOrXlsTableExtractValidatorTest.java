@@ -1,4 +1,4 @@
-package io.github.kureung.xlsx;
+package io.github.kureung.xlsx_or_xls;
 
 import io.github.kureung.common.TableExtract;
 import org.assertj.core.api.Assertions;
@@ -6,12 +6,12 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-class XlsxTableExtractValidatorTest {
+class XlsxOrXlsTableExtractValidatorTest {
     @Test
     void validSheetName_is_not_throw_exception() {
-        File xlsx = new File("src/test/java/io/github/kureung/xlsx/xlsx_sample.xlsx");
+        File xlsx = new File("src/test/java/io/github/kureung/xlsx_or_xls/xlsx_sample.xlsx");
 
-        XlsxTableExtractValidator<XlsxValidSheetSample> sut = new XlsxTableExtractValidator<>(xlsx, XlsxValidSheetSample.class);
+        XlsxOrXlsTableExtractValidator<XlsxValidSheetSample> sut = new XlsxOrXlsTableExtractValidator<>(xlsx, XlsxValidSheetSample.class);
 
         Assertions.assertThatCode(() -> sut.validSheet())
                 .doesNotThrowAnyException();

@@ -1,4 +1,4 @@
-package io.github.kureung.xlsx;
+package io.github.kureung.xlsx_or_xls;
 
 import io.github.kureung.common.CellExtract;
 import io.github.kureung.common.TableExtract;
@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.util.List;
 
-class XlsxExtractorTest {
+class XlsxOrXlsExtractorTest {
     @Test
     void extract() {
-        File xlsx = new File("src/test/java/io/github/kureung/xlsx/xlsx_sample.xlsx");
+        File xlsx = new File("src/test/java/io/github/kureung/xlsx_or_xls/xlsx_sample.xlsx");
 
-        XlsxExtractor sut = new XlsxExtractor(xlsx);
+        XlsxOrXlsExtractor sut = new XlsxOrXlsExtractor(xlsx);
         List<XlsxSampleData> result = sut.execute(XlsxSampleData.class);
 
         Assertions.assertThat(result).hasSize(2);

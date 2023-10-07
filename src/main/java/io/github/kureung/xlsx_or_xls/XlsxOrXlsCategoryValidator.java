@@ -1,19 +1,20 @@
-package io.github.kureung.xlsx;
+package io.github.kureung.xlsx_or_xls;
 
 import io.github.kureung.common.CellExtract;
 import io.github.kureung.common.CellIndexName;
-import org.dhatim.fastexcel.reader.Cell;
-import org.dhatim.fastexcel.reader.Row;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+
 
 import java.lang.reflect.Field;
 import java.util.List;
 
-class XlsxCategoryValidator<T> {
-
+public class XlsxOrXlsCategoryValidator<T> {
     private final Class<T> clazz;
     private final List<Row> rows;
 
-    XlsxCategoryValidator(Class<T> clazz, List<Row> rows) {
+    public XlsxOrXlsCategoryValidator(final Class<T> clazz, final List<Row> rows) {
         this.clazz = clazz;
         this.rows = rows;
     }
@@ -24,6 +25,7 @@ class XlsxCategoryValidator<T> {
             checkHasCellExtractAnnotation(field);
         }
     }
+
 
     private void checkHasCellExtractAnnotation(Field field) {
         if (field.isAnnotationPresent(CellExtract.class)) {
@@ -41,6 +43,7 @@ class XlsxCategoryValidator<T> {
         }
     }
 
+
     private void rowTraversal(CellIndexName cellIndexName, String cellValue) {
         for (Row row : rows) {
             verifyRowNumber(cellIndexName, cellValue, row);
@@ -48,15 +51,18 @@ class XlsxCategoryValidator<T> {
     }
 
     private void verifyRowNumber(CellIndexName cellIndexName, String cellValue, Row row) {
-        if (row.getRowNum() == cellIndexName.yCoordinate() + 1) {
+        if (row.getRowNum() == cellIndexName.yCoordinate()) {
             Cell cell = row.getCell(cellIndexName.xCoordinate());
+            cell.getStringCellValue();
             verifyValue(cellValue, cell);
         }
     }
 
     private void verifyValue(String cellValue, Cell cell) {
-        if (!cellValue.equals(cell.getText())) {
-            String message = String.format("셀 값 검증 실패. expected=%s, actual=%s", cellValue, cell.getText());
+        DataFormatter formatter = new DataFormatter();
+        String actualCellValue = formatter.formatCellValue(cell);
+        if (!cellValue.equals(actualCellValue)) {
+            String message = String.format("셀 값 검증 실패. expected=%s, actual=%s", cellValue, actualCellValue);
             throw new IllegalStateException(message);
         }
     }

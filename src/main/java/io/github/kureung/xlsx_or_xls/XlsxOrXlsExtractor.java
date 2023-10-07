@@ -1,19 +1,20 @@
-package io.github.kureung.xlsx;
+package io.github.kureung.xlsx_or_xls;
 
 import io.github.kureung.common.CellExtract;
 import io.github.kureung.common.CellIndexName;
-import org.dhatim.fastexcel.reader.Cell;
-import org.dhatim.fastexcel.reader.Row;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
 
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public class XlsxExtractor {
+public class XlsxOrXlsExtractor {
     private final File file;
 
-    public XlsxExtractor(final File file) {
+    public XlsxOrXlsExtractor(final File file) {
         this.file = file;
     }
 
@@ -23,12 +24,12 @@ public class XlsxExtractor {
         return extract(clazz, rows);
     }
 
-    private <T> void verifyCategoryValue(Class<T> clazz, List<Row> rows) {
-        new XlsxCategoryValidator<>(clazz, rows).execute();
+    private <T> void verifyCategoryValue(Class<T> clazz, List<Row> sheet) {
+        new XlsxOrXlsCategoryValidator<>(clazz, sheet).execute();
     }
 
     private <T> List<Row> rows(File file, Class<T> clazz) {
-        return new XlsxTableExtractValidator<>(file, clazz).validRows();
+        return new XlsxOrXlsTableExtractValidator<>(file, clazz).validRows();
     }
 
     private <T> List<T> extract(final Class<T> clazz, final List<Row> rows) {
@@ -42,7 +43,9 @@ public class XlsxExtractor {
                     CellExtract extractionCondition = field.getAnnotation(CellExtract.class);
                     int x = xCoordinate(extractionCondition.firstDataIndex());
                     Cell cell = row.getCell(x);
-                    injectField(field, instance, cell.getText());
+                    DataFormatter formatter = new DataFormatter();
+                    String actualCellValue = formatter.formatCellValue(cell);
+                    injectField(field, instance, actualCellValue);
                 }
             }
             result.add(instance);
