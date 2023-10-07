@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 public @interface TableExtract {
     int sheetNumber() default 0;
     String sheetName() default "";
-    int firstDataRowIndex() default 0;
+    int firstCategoryRowIndex() default 0;
     boolean verifySheetName() default true;
     Entry terminateCondition() default @Entry(columNumber=-1);
 

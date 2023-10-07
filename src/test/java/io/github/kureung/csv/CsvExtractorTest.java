@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class CsvExtractorTest {
     @Test
     void extract() {
@@ -24,7 +22,7 @@ class CsvExtractorTest {
 
     @TableExtract(
             verifySheetName = false,
-            firstDataRowIndex = 1,
+            firstCategoryRowIndex = 1,
             terminateCondition= @TableExtract.Entry(columNumber = 1, isNull = true)
     )
     private static class CsvSampleData {

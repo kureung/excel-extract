@@ -26,7 +26,7 @@ class CsvTableExtractValidator<T> {
         }
 
         TableExtract table = clazz.getAnnotation(TableExtract.class);
-        int firstValidDataRowNumber = table.firstDataRowIndex();
+        int firstValidDataRowNumber = table.firstCategoryRowIndex();
         List<String[]> result = new ArrayList<>();
         List<String[]> rows = tableRows();
 

@@ -23,7 +23,7 @@ class XlsxOrXlsExtractorTest {
             sheetNumber = 0,
             sheetName="사원명부",
             verifySheetName = true,
-            firstDataRowIndex = 3,
+            firstCategoryRowIndex = 3,
             terminateCondition= @TableExtract.Entry(columNumber = 1, isNull = true)
     )
     private static class XlsxSampleData {

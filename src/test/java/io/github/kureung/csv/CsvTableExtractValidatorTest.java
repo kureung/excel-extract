@@ -22,7 +22,7 @@ class CsvTableExtractValidatorTest {
             sheetNumber = 0,
             sheetName="사원명부",
             verifySheetName = true,
-            firstDataRowIndex = 1,
+            firstCategoryRowIndex = 1,
             terminateCondition= @TableExtract.Entry(columNumber = 1, isNull = true)
     )
     private static class CsvValidSheetSample {

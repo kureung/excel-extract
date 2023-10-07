@@ -27,7 +27,7 @@ class XlsxOrXlsTableExtractValidator<T> {
 
     public List<Row> validRows() {
         TableExtract table = clazz.getAnnotation(TableExtract.class);
-        int firstValidDataRowNumber = table.firstDataRowIndex();
+        int firstValidDataRowNumber = table.firstCategoryRowIndex();
         List<Row> tableRows = tableRows(validSheet(), firstValidDataRowNumber);
 
         List<Row> result = new ArrayList<>();
