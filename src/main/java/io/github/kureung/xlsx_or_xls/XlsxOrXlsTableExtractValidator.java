@@ -18,17 +18,11 @@ class XlsxOrXlsTableExtractValidator<T> {
         this.clazz = clazz;
     }
 
-    public Sheet validSheet() {
-        verifyHasTableExtractAnnotation();
-        Sheet sheet = extractSheet();
-        verifySheetName(sheet);
-        return sheet;
-    }
-
     public List<Row> validRows() {
+        Sheet sheet = validSheet();
         TableExtract table = clazz.getAnnotation(TableExtract.class);
         int firstValidDataRowNumber = table.firstCategoryRowIndex();
-        List<Row> tableRows = tableRows(validSheet(), firstValidDataRowNumber);
+        List<Row> tableRows = tableRows(sheet, firstValidDataRowNumber);
 
         List<Row> result = new ArrayList<>();
         for (Row row : tableRows) {
@@ -50,6 +44,13 @@ class XlsxOrXlsTableExtractValidator<T> {
             result.add(row);
         }
         return result;
+    }
+
+    private Sheet validSheet() {
+        verifyHasTableExtractAnnotation();
+        Sheet sheet = extractSheet();
+        verifySheetName(sheet);
+        return sheet;
     }
 
     private List<Row> tableRows(Sheet sheet, int firstValidDataRowNumber) {

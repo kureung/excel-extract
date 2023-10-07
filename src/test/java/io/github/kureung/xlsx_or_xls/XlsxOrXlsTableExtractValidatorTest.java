@@ -13,7 +13,7 @@ class XlsxOrXlsTableExtractValidatorTest {
 
         XlsxOrXlsTableExtractValidator<XlsxValidSheetSample> sut = new XlsxOrXlsTableExtractValidator<>(xlsx, XlsxValidSheetSample.class);
 
-        Assertions.assertThatCode(() -> sut.validSheet())
+        Assertions.assertThatCode(() -> sut.validRows())
                 .doesNotThrowAnyException();
     }
 
