@@ -18,9 +18,6 @@ class CsvExtractorTest {
         List<CsvSampleData> result = sut.execute(CsvSampleData.class);
 
         Assertions.assertThat(result).hasSize(2);
-        for (CsvSampleData csvSampleData : result) {
-            System.out.println("csvSampleData = " + csvSampleData);
-        }
     }
 
 
