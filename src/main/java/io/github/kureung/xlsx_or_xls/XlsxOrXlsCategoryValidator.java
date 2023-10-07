@@ -53,7 +53,6 @@ public class XlsxOrXlsCategoryValidator<T> {
     private void verifyRowNumber(CellIndexName cellIndexName, String cellValue, Row row) {
         if (row.getRowNum() == cellIndexName.yCoordinate()) {
             Cell cell = row.getCell(cellIndexName.xCoordinate());
-            cell.getStringCellValue();
             verifyValue(cellValue, cell);
         }
     }
