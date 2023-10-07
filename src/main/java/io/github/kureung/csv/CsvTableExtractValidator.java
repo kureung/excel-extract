@@ -54,9 +54,8 @@ class CsvTableExtractValidator<T> {
     }
 
     private List<String[]> tableRows() {
-        File file = new File("src/test/java/io/github/kureung/csv/csv_sample.csv");
-        try {
-            CSVReader csvReader = new CSVReader(new InputStreamReader(Files.newInputStream(file.toPath()), "EUC-KR"));
+        try (InputStreamReader is = new InputStreamReader(Files.newInputStream(file.toPath()), "EUC-KR")){
+            CSVReader csvReader = new CSVReader(is);
             return csvReader.readAll();
         } catch (IOException | CsvException e) {
             throw new RuntimeException(e);
